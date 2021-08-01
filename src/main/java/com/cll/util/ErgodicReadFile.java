@@ -14,6 +14,7 @@ import java.util.List;
  * @DateTime: 2021/06/18 14:47
  **/
 public class ErgodicReadFile {
+    static List<File> fileList = new ArrayList<>();
     /**
      * 读取文件
      * @param path
@@ -71,28 +72,31 @@ public class ErgodicReadFile {
      */
     public static List<File> readFile(String path,String suffix) {
         try {
-            List<File> fileList = new ArrayList<>();
+
             File f = new File(path);
             if (!f.exists()) {
                 return null;
             }
-
+            String absolutePath = "";
             if (f.isDirectory()) {
                 for (File file : f.listFiles()) {
-                    String absolutePath = file.getAbsolutePath();
-                    absolutePath = absolutePath.substring(absolutePath.lastIndexOf("."));
-                    if (absolutePath.equals(suffix)) {
-                        fileList.add(file);
+                    if (file.isDirectory()) {
+                        readFile(file.getAbsolutePath(),suffix);
+                    } else {
+                        absolutePath = file.getAbsolutePath();
+                        absolutePath = absolutePath.substring(absolutePath.lastIndexOf("."));
+                        if (absolutePath.equals(suffix)) {
+                            fileList.add(file);
+                        }
                     }
                 }
-                return fileList;
             }
+            return fileList;
         } catch (Exception e) {
             e.getStackTrace();
         }
         return null;
     }
-
 
     /**
      * 读取excel,区分Excel版本格式

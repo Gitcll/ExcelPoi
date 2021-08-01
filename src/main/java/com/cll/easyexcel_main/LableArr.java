@@ -14,6 +14,7 @@ import java.util.Map;
 
 public class LableArr {
     static Map<String, String> stringMap = new HashMap<>();
+
     public static void main(String[] args) {
         String path = "D:\\Java\\ExcelPoi\\src\\main\\resources";
         List<File> listJspPath = ErgodicReadFile.readFile(path, ".jsp");
@@ -33,7 +34,7 @@ public class LableArr {
         XSSFCell cellColumn = null;
         XSSFCell rowColumn = null;
         wb = (XSSFWorkbook) ErgodicReadFile.readExcel(file);
-        if(wb != null){
+        if (wb != null) {
             //获取对应的sheet，当前获取第三个sheet(下标从0开始)
             sheet = wb.getSheetAt(2);
             int lastRowNum = sheet.getLastRowNum() + 1;
@@ -69,15 +70,18 @@ public class LableArr {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 System.out.println("数据处理完成");
             }
         }
     }
+
     public static void LableArrFun(File file) {
         try {
-            String absolutePath = file.getAbsolutePath();
+            String absolutePath = "";
+            absolutePath = file.getAbsolutePath();
             FileReader fileReader = new FileReader(absolutePath);
+            String[] absolutePathArr = absolutePath.split("resources", absolutePath.lastIndexOf("resources"));
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             StringBuffer stringBuffer = new StringBuffer();
             String str = "";
@@ -85,11 +89,18 @@ public class LableArr {
                 System.out.println("str = " + str);
                 stringBuffer.append(str);
             }
-            stringMap.put(absolutePath,stringBuffer.toString());
+            stringMap.put(absolutePath, stringBuffer.toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    static String[] pathName = {
+            "a",
+            "b",
+            "c",
+            "d",
+    };
 }
